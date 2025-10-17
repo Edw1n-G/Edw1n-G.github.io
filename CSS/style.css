@@ -1,0 +1,156 @@
+/* Grundlegende Stile */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    margin: 40px 0;
+    font-size: 2.5em;
+}
+
+/* Der Haupt-Container für die Timeline */
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Die vertikale Linie der Timeline in der Mitte */
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: #333;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+}
+
+/* Container für jedes einzelne Projekt */
+.container {
+    padding: 10px 40px;
+    position: relative;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+/* Der Inhalts-Block */
+.content {
+    padding: 20px 30px;
+    background-color: white;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Positioniert die linken Container */
+.left {
+    left: 0;
+}
+
+/* Positioniert die rechten Container */
+.right {
+    left: 50%;
+}
+
+/* Der Kreis auf der Timeline (für jeden Eintrag) */
+.container::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    border: 4px solid #FF5733;
+    top: 25px; /* Angepasst für die Jahreszahl */
+    border-radius: 50%;
+    z-index: 1;
+}
+
+/* Kreise für linke Container (auf der rechten Seite des Containers) */
+.left::after {
+    right: -17px;
+}
+
+/* Kreise für rechte Container (auf der linken Seite des Containers) */
+.right::after {
+    left: -16px;
+}
+
+/* Styling für die Jahreszahlen */
+.date {
+    position: absolute;
+    top: 22px;
+    width: 100px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #FF5733;
+    z-index: 1;
+}
+
+.left .date {
+    right: -50px; /* Positioniert die Jahreszahl des linken Containers */
+}
+
+.right .date {
+    left: -50px; /* Positioniert die Jahreszahl des rechten Containers */
+}
+
+
+/* Bilder und Buttons wie zuvor */
+.content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+.button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #FF5733;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.button:hover {
+    background-color: #c13e1c;
+}
+
+/* WICHTIG: Media Query für mobile Geräte */
+@media screen and (max-width: 800px) {
+    /* Timeline-Linie nach links verschieben */
+    .timeline::after {
+        left: 31px;
+    }
+
+    /* Alle Container auf volle Breite und nach rechts */
+    .container {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+
+    /* Position für alle Container zurücksetzen */
+    .left, .right {
+        left: 0;
+    }
+
+    /* Alle Kreise auf die linke Linie ausrichten */
+    .left::after, .right::after {
+        left: 15px;
+    }
+
+    /* Position der Jahreszahlen für mobile Ansicht anpassen */
+    .left .date, .right .date {
+        left: -15px;
+        top: -10px;
+        background: #f0f2f5;
+        padding: 5px 0;
+    }
+}
