@@ -100,7 +100,6 @@ h1 {
     left: -50px; /* Positioniert die Jahreszahl des rechten Containers */
 }
 
-
 /* Bilder und Buttons wie zuvor */
 .content img {
     max-width: 100%;
@@ -120,6 +119,36 @@ h1 {
 }
 .button:hover {
     background-color: #c13e1c;
+}
+
+/* Add or modify these rules to fix the date positioning */
+.container .date {
+    position: absolute;
+    top: -40px; /* Ensures date stays above the timeline dot */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    z-index: 10;
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+/* Ensure proper positioning for both left and right containers */
+.container.left .date,
+.container.right .date {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Media query for wider screens to maintain consistent positioning */
+@media screen and (min-width: 768px) {
+    .container .date {
+        top: -40px; /* Keep consistent top positioning */
+    }
 }
 
 /* WICHTIG: Media Query für mobile Geräte */
