@@ -57,6 +57,12 @@ h1 {
     left: 50%;
 }
 
+/* Positioniert Container in der Mitte (zentriert) */
+.center {
+    left: 25%;
+    width: 50%;
+}
+
 /* Der Kreis auf der Timeline (für jeden Eintrag) */
 .container::after {
     content: '';
@@ -80,6 +86,11 @@ h1 {
     left: -16px;
 }
 
+/* Kreise für mittige Container (auf der Mittellinie) */
+.center::after {
+    right: -17px;
+}
+
 /* Styling für die Jahreszahlen */
 .date {
     position: absolute;
@@ -98,6 +109,10 @@ h1 {
 
 .right .date {
     left: -50px; /* Positioniert die Jahreszahl des rechten Containers */
+}
+
+.center .date {
+    right: -50px; /* Positioniert die Jahreszahl des mittigen Containers */
 }
 
 /* Bilder und Buttons wie zuvor */
@@ -149,6 +164,10 @@ h1 {
     .container .date {
         top: -40px; /* Keep consistent top positioning */
     }
+    
+    .center {
+        left: 25%; /* Maintain center positioning on larger screens */
+    }
 }
 
 /* WICHTIG: Media Query für mobile Geräte */
@@ -166,7 +185,7 @@ h1 {
     }
 
     /* Position für alle Container zurücksetzen */
-    .left, .right {
+    .left, .right, .center {
         left: 0;
     }
 
