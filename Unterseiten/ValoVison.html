@@ -100,7 +100,7 @@
                 </p>
 
                 <p>
-                    Derzeitig kann ohne lan und neuen monitor die hälfte nicht gemacht werden. <--- bald da<br>
+                    Derzeitig kann ohne lan und neuen monitor die hälfte nicht gemacht werden.&#9989 <br>
                     Deswegen versuche ich herauszufinden wie ich das model auf ne amd (i)gpu kriege und was noch optimiert werden kann. &#9989 kinda<br>
                     Dannach wird der rp2040 komplett neu programmiert damit es mit 2 pc setup läuft.<br>
                     Eine neue Anspruchsvollere testumgebung neu Aufbauen <br>
@@ -127,6 +127,9 @@
                     Mit directml und onnx auf windows <href="https://github.com/microsoft/onnxruntime">Link</href>
                     openvino soll anscheinend auch auf manchen amd cpus laufen <br>
                     iree compiler sollte wenn ichs richtig verstehe es der hardware entsprechen anpassen und optimieren anstatt es zu verpacken wie andere.
+                    06.12.2025 Ey hab irre compiler getestet mit O2 optimierung und das ding ist ass auf meiner GPU. 93% usage und 350ms inference zeit<br>
+                    CPU version liegt bei 700ms. das ist weird da ich höchstens 100 erwartet habe im schlimmsten fall.
+                    Die dokumentation ist da ist gut aber nicht annährend ausführlich genug für mich. ich guck mir das wann anders vllt wieder an erstmal muss onnx reichen
 
                     Getestet auf video mit länge von 1800 frames. nur geschwindigkeit im Fokus.<br>
                     Preprocess und Postprocess werden mitgerechnet
