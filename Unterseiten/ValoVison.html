@@ -7,41 +7,169 @@
     <link rel="stylesheet" href="../CSS/style.css">
 </head>
 <body>
-    <div class="timeline">
-        <div class="container">
-            <div class="content">
+    <button class="scroll-button" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})">↓</button>
+    <div class="container centered">
+        <div class= "content">
                 <h2>Projekt Idee</h2>
                 <p>"Warum Cheaten alle WTF" -Zitat Ende</p>
-            </div>
-        </div>
 
-        <div class="container">
-            <div class="content">
                 <h2>Inspiration</h2>
                 <p>Interesants YT video</p>
-            </div>
-        </div>
 
-        <div class="container">
-            <div class="content">
+
                 <h2>Planung</h2>
-                <p>Project wurde in 3 einzelne Projekte unterteilt</p>
-                <p>Teil 1 ValoVison (Der Teil der gerade gelesen wird)</p>
-                Ein Computer Vison Model welches auf Valorant Spielaufnahmen trainiert wird um zuverläsig
-                Gegner zu erkennen und Kopf sowie Körper zu erkennen.
-                Bildschirmkoordinaten der Gegner werden in Echtzeit ausgegeben.
-                Das Model soll auf CPU sowie GPU laufen können ohne große Leistungseinbußen.</br>
+                <p>Brauche paar sachen</p>
+                <list>
+                    <li>Datensatz</li>
+                    <li>Modeltraining</li>
+                    <li>Model deployment</li>
+                    <li>Inference Ergebnisse zu Mausbewegung</li>
+                    <li>Externe Hardware für Mausbewegung</li>
+                    <li>Programm auf externe Hardware</li>
+                    <li>Profit</li>
+                </list>
                 </br>
                 </br>
-                <p>Teil 2 Mausdaten abfangen</p>
-                Da eine direkte Steuerung der Maus bewegung vom Anticheat schnell erkannt wird muss externe hardware Programmiert werden</br>
-                <a href="Unterseiten/MausKlon.html" class="button">Zur Projektseite</a>
+
+                <h2>Durchführung</h2>
+                <p>Es gibt Daten für Valorant mit Labels. Die waren aber komisch und nicht wirklich brauchbar.</p>
+                <p>dewegen habe ich gameplay aufgenommen hab durchgeskippt und alles gescreenshotted was brauchbar war.</p>
+                <p>nach wenigen 100 halbwegs einzigartigen Bildern musste ich anfangen zu annotieren.</p>
+                <p>Die Art des Labelings hat sich paar mal geändert.</p>
+                <li>
+                    <li>Gegner, Kopf, Körper, Beine, Teammates</li>
+                    <li>Kopf, Körper, Teammates + utils <----Derzeitiges model</li>
+                </li>
+                <p>
+                    Nach model training von YoloV11n auf kaagle auf 2 Nvidea Tesla P100 da es 80 gratis Stunden jede woche o.ä gab.
+                    Inzwischen gibt es nur 1 GPU und 30 Stunden was für ne kacke aber immer noch besser als colab
+                </p>
+
+                <img src="../Bilder/VV/jett inference.jpg" style="max-width: 45%;">
+                <p>Weil ich offensichtlich mehr daten brauchte und gleichzeitig bessere qualität habe ich immer das derzeitige model zum annotiren benutzt um fehler auszubessern.
+                     Zeit sparen und Daten die jetzt schon perfekt erkannt werden nicht unnötig zum Datensatzt hinzufügen.
+                </p>
                 
-                <p>Teil 3 FullCheat</p>
-                Programm welches Output vom CV Model nimmt und mit externer Hardware Mausbewegung anpasst</br>
-                <a href="Unterseiten/FullCheat.html" class="button">Zur Projektseite</a>
+                <p>Als es gut genug war in onnx format und auf der cpu laufen lassen da ich nicht mit der amd gpu rumfummeln wollte. Kombiniert mit simplem screencapture, ui und bisschen Mausbewegung
+                    gab es den ersten Prototypen. Wenn ich diesen aber in Valorant nutzen würde wäre ich sofort gebannt oder es würde nicht funktionieren wegen der Mausbewegung per code.
+                    Also ganz schnell in Unity ne Box mit paar pngs die random auftauhen und nach einem click drauf verschwinden.
+                    Tests ohne Risiko.
+                </p>
+                <video controls playsinline preload="metadata" poster="../Bilder/Endversion-poster.png" style="max-width:100%;height:auto;">
+                    <source src="../Videos/Concepttest.webm" type="video/webm">
+                    Dein Browser (oder wahrscheinlicher mein code) unterstützt dieses Video nicht.
+                </video>
+                <div>
+                    <div style="display: flex; justify-content: center; align-items: center;margin-top: 6px; ">
+                        <img src="../Bilder/VV/confusion_matrix_normalized.png" style="max-width: 59%; margin: -10px;">
+                        <img src="../Bilder/VV/labels.jpg" style="max-width: 49%; margin: -10px;">
+                    </div>
+                    <img src="../Bilder/VV/results.png" style="max-width: 100%;">
+                    <img src="../Bilder/VV/val_batch2_labels.jpg" style="max-width: 100%;">
+                </div>
+
+                sieht nicht gut aus für köpfe aber naja und wegem dem ganzen ruckeln und überlappen habe ich die körper labels entfernt im nächsten durchgang.
+                <p>
+                    mehrere probleme. Anvisierung ass, performance ass, aim ass, obb ass, aber funktioniert.
+                </p>
+
+                <p>
+                    nächster schritt mausbewegung auf Hardware umsetzen.<br>
+                    adafruit rp2040 USB-A feather sollte gut sein mit 2 usb ports. (ist nicht gut).<br>
+                    tinyusb library wurde genutzt um alles in c zu schreiben. Es funktioniert mit seinen eigenen beispielen keine 5 minuten.
+                    und man muss freertos verwenden zusätzlich damit der usb host nicht abstürzt. (Hat Monat gedauert es zum stabil zu kriegen und 6 monate später ist es immer noch nicht solved)
+                    btw die docs sind auch nicht gut.<br>
+                    Die polling rate ist nidrig und der host/pc werden nicht gesynct und die polling rate wird immer schlechter dadurch.
+                    yay arbeit die ich später machen werde.
+                    <img src="../Bilder/VV/rp2040.jpg" style="max-width: 45%;">
+                </p>
+                <p>
+                    Stand jetzt ist der anticheat von riot besser und deswegen sind die anforderungen erhöt.<br>
+                    mit meinem laptop für die uni wird ein 2 pc setup gemacht wo auf dem laptop das vision model läuft
+                    mit screencapture vom desktop. der rp2040 wird zwischen den beiden geschaltet was den code simpler macht. vlt geht schnell doch noch.
+                    Um die erkennung zu verbessern werden noch paar sachen gemacht:
+                    <list>
+                        <li>mehr training data sammeln</li>
+                        <li>model architekturen testen</li>
+                        <li>erkennung von spielern unabhängig vom Team machen und mit farbfilter überprüfen</li>
+                        <li>die erkennung von spielern und kopf trennen da auf distanz zu wenig information vorhanden ist</li>
+                        <li>höhere auflösung (1440p Monitor) für mehr details &#9989</li> 
+                        <li>eine möglichkeit finden die Mausbewegung von mir und dem programm vernünftig zu mischen</li>
+                        <li>Die pollingrate vom rp2040 auf ein akzeptables stabiles Niveau bringen</li>
+                    </list>
+                </p>
+
+                <p>
+                    Derzeitig kann ohne lan und neuen monitor die hälfte nicht gemacht werden.&#9989 <br>
+                    Deswegen versuche ich herauszufinden wie ich das model auf ne amd (i)gpu kriege und was noch optimiert werden kann. &#9989 kinda<br>
+                    Dannach wird der rp2040 komplett neu programmiert damit es mit 2 pc setup läuft.<br>
+                    Eine neue Anspruchsvollere testumgebung neu Aufbauen <br>
+                    Nachdem wird weiter am model gearbeitet. Ziel sind mind 1500 gute Bilder im datensatz.<br>
+                    wenn der datensatz fertig ist wird mit verschiedenen architekturen experimentiert und auch mit tracking funktionen.<br>
+                    Das beste ergebnis fest implementieren<br>
+                    Bildschirm aufnahme auf zweites gerät übertragen mit so wenig latenz wie möglich<br>
+                    Eigene Mausbewegung und soll bewegung mischen ohne ruckler<br>
+                    Aim Assistance implementieren<br>
+                    Triggerbot implementieren<br>
+                    Recoil Control implementieren<br>
+                    UI implementieren<br>
+                    Mausbewegung so menschlich wie möglich machen<br>
+                    Programme und hardware optimieren für plug and play<br>
+                    Auf altem PC und neuen Account testen (hwid fingerprint ban nicht so geil auf main)<br>
+                    Je nach ergebnis bestimmte sachen überarbeiten oder in anderen spielen cheaten.<br>
+                    Profit
+                </p>
+
+                <h3> AMD support und model verbesserung</h3>
+                <p>
+                    Mit <href="https://github.com/Tencent/ncnn"> ncnn von Tencent</href>, welches eigentlich für mobile arm cpus optimiert ist, 
+                    kann man per vulkan shader das model auf fast jeder gpu laufen lassen. <br>
+                    Mit directml und onnx auf windows <href="https://github.com/microsoft/onnxruntime">Link</href>
+                    openvino soll anscheinend auch auf manchen amd cpus laufen <br>
+                    iree compiler sollte wenn ichs richtig verstehe es der hardware entsprechen anpassen und optimieren anstatt es zu verpacken wie andere.
+                    06.12.2025 Ey hab irre compiler getestet mit O2 optimierung und das ding ist ass auf meiner GPU. 93% usage und 350ms inference zeit<br>
+                    CPU version liegt bei 700ms. das ist weird da ich höchstens 100 erwartet habe im schlimmsten fall.
+                    Die dokumentation ist da ist gut aber nicht annährend ausführlich genug für mich. ich guck mir das wann anders vllt wieder an erstmal muss onnx reichen
+
+                    Getestet auf video mit länge von 1800 frames. nur geschwindigkeit im Fokus.<br>
+                    Preprocess und Postprocess werden mitgerechnet
+                    <table>
+                        <tr>
+                            <TH>Model</TH>
+                            <th>deployment</th>
+                            <th>device</th>
+                            <th>avg processing time per frame</th>
+                        </tr>
+                        <tr>
+                            <th>YOLOv11s</th>
+                            <th>NCNN</th>
+                            <th>AMD Radeon Graphics (Ryzen 7000)</th>
+                            <th>48.02ms</th>
+                        </tr>
+                        <tr>
+                            <th>YOLOv11s</th>
+                            <th>NCNN</th>
+                            <th>AMD RX 580</th>
+                            <th>46.55ms</th>
+                        </tr>
+                        <tr>
+                            <th>YOLOv11s</th>
+                            <th>ONNX</th>
+                            <th>AMD Radeon Graphics (Ryzen 7000)</th>
+                            <th>79.62ms</th>
+                        </tr>
+                        <tr>
+                            <th>YOLOv11s</th>
+                            <th>ONNX</th>
+                            <th>RX 580</th>
+                            <th>15.35s</th>
+                        </tr>
+                    </table>
+
+                    Da das modell praktisch mit batch size=1 laufen muss wird die gpu nicht vollständig genutzt insbesondere bei ncnn.
+                    Preprocess, postprocess und frame capture werde ich irgendwann in eigene threads werfren damit es weniger verzögerung gibt.
+                </p>
             </div>
         </div>
-    </div>
 </body>
 </html>
